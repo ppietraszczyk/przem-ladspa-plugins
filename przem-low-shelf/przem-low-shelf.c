@@ -263,8 +263,3 @@ const LADSPA_Descriptor *ladspa_descriptor(unsigned long index)
     }
 }
 
-// Zerowanie pamięci w activate(): W funkcji activate() wyzeruj zmienne stanu (x1 = x2 = y1 = y2 = 0.0;), aby uniknąć trzasków przy ponownym uruchomieniu odtwarzania.
-
-// Przetwarzanie stereo: Powyższy przykład dotyczy kanału mono. Jeśli wtyczka ma być stereo, musisz utworzyć dwa osobne zestawy zmiennych stanu (x1_L, x2_L... oraz x1_R, x2_R...), aby lewy i prawy kanał nie mieszały się ze sobą
-
-// Optymalizacja: Współczynniki b0..a2 warto przeliczać tylko wtedy, gdy użytkownik zmieni wartość portów gain lub freq, a nie przy każdym wywołaniu funkcji run().
