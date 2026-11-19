@@ -1,0 +1,1 @@
+* ruszyć frequency w LMMS

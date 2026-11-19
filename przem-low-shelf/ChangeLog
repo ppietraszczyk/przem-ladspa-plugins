@@ -1,0 +1,15 @@
+#[0.261119-1]
+* Dodanie obslugi stereo, w LMMS równiez działa frequency
+
+#[0.261118-2]
+* Frequency działa ale tylko na ścieżce mono w Audacity. W LMMS nie działa
+
+#[0.261118-1]
+* Filtr uruchamia się, jednak jedynie wzmocnienie głośności reaguje na zmiany, frequency bez jakiej kolwiek reakcji
+
+#[0.261118-0]
+* Zmiana struktur katalogów
+* Zmiana nazwy
+
+#[0261117-0]
+* Inicjajcja projektu
