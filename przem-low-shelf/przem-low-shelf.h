@@ -14,11 +14,11 @@
 #define M_PI 3.14159265358979323846264338327
 #endif
 
-#define PORTCOUNT_MONO   6
+#define PORTCOUNT   6
 
 /* The Unique ID of the plugin: */
 
-#define ID_MONO         1129958
+#define ID_STEREO         1129958
 
 /* The port numbers for the plugin: */
 

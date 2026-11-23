@@ -73,8 +73,8 @@ static void run(LADSPA_Handle handle, unsigned long SampleCount)
     if (!isfinite(freq)) freq = 100.0;
 
     // 2. Ograniczenie zakresu (Clamping)
-    if (gain < -24.0) gain = -24.0;
-    else if (gain > 24.0) gain = 24.0;
+    if (gain < 0) gain = 0;
+    else if (gain > 48.0) gain = 48.0;
 
     double max_freq = fs * 0.49; // Bezpieczny margines poniżej częstotliwości Nyquista (fs / 2)
     if (freq < 1.0) freq = 1.0;
@@ -175,7 +175,7 @@ static void cleanup(LADSPA_Handle handle)
     free(handle);
 }
 
-LADSPA_Descriptor * mono_descriptor = NULL;
+LADSPA_Descriptor * stereo_descriptor = NULL;
 
 void
 __attribute__((constructor)) sin_init() {
@@ -184,26 +184,26 @@ __attribute__((constructor)) sin_init() {
     LADSPA_PortDescriptor * port_descriptors;
     LADSPA_PortRangeHint * port_range_hints;
 
-    if ((mono_descriptor =
+    if ((stereo_descriptor =
         (LADSPA_Descriptor *)malloc(sizeof(LADSPA_Descriptor))) == NULL)
         exit(1);
     /* compute the log10 table */
     //for (i = 0; i < 9000; i++)
     //    log10_table[i] = log10f(1.0f + i / 1000.0f);
 
-    mono_descriptor->UniqueID = ID_MONO;
-    mono_descriptor->Label = strdup("Przem Low Shelf");
-    mono_descriptor->Properties = LADSPA_PROPERTY_HARD_RT_CAPABLE; //0;
-    mono_descriptor->Name = strdup("Przem Low Shelf");
-    mono_descriptor->Maker = strdup("Przemysław R. Pietraszczyk");
-    mono_descriptor->Copyright = strdup("MIT");
-    mono_descriptor->PortCount = PORTCOUNT_MONO;
+    stereo_descriptor->UniqueID = ID_STEREO;
+    stereo_descriptor->Label = strdup("Przem Low Shelf");
+    stereo_descriptor->Properties = LADSPA_PROPERTY_HARD_RT_CAPABLE; //0;
+    stereo_descriptor->Name = strdup("Przem Low Shelf");
+    stereo_descriptor->Maker = strdup("Przemysław R. Pietraszczyk");
+    stereo_descriptor->Copyright = strdup("MIT");
+    stereo_descriptor->PortCount = PORTCOUNT;
 
     if ((port_descriptors =
-        (LADSPA_PortDescriptor *)calloc(PORTCOUNT_MONO, sizeof(LADSPA_PortDescriptor))) == NULL)
+        (LADSPA_PortDescriptor *)calloc(PORTCOUNT, sizeof(LADSPA_PortDescriptor))) == NULL)
         exit(1);
 
-    mono_descriptor->PortDescriptors = (const LADSPA_PortDescriptor *)port_descriptors;
+    stereo_descriptor->PortDescriptors = (const LADSPA_PortDescriptor *)port_descriptors;
     port_descriptors[GAIN] = LADSPA_PORT_INPUT | LADSPA_PORT_CONTROL;
     port_descriptors[FREQ] = LADSPA_PORT_INPUT | LADSPA_PORT_CONTROL;
     port_descriptors[INPUTL] = LADSPA_PORT_INPUT | LADSPA_PORT_AUDIO;
@@ -212,10 +212,10 @@ __attribute__((constructor)) sin_init() {
     port_descriptors[OUTPUTR] = LADSPA_PORT_OUTPUT | LADSPA_PORT_AUDIO;
 
     if ((port_names =
-        (char **)calloc(PORTCOUNT_MONO, sizeof(char *))) == NULL)
+        (char **)calloc(PORTCOUNT, sizeof(char *))) == NULL)
         exit(1);
 
-    mono_descriptor->PortNames = (const char **)port_names;
+    stereo_descriptor->PortNames = (const char **)port_names;
     port_names[GAIN] = strdup("Gain Level [dB]");
     port_names[FREQ] = strdup("Frequency [Hz]");
     port_names[INPUTL] = strdup("Input Left");
@@ -224,40 +224,40 @@ __attribute__((constructor)) sin_init() {
     port_names[OUTPUTR] = strdup("Output Right");
 
     if ((port_range_hints =
-        ((LADSPA_PortRangeHint *)calloc(PORTCOUNT_MONO, sizeof(LADSPA_PortRangeHint)))) == NULL)
+        ((LADSPA_PortRangeHint *)calloc(PORTCOUNT, sizeof(LADSPA_PortRangeHint)))) == NULL)
         exit(1);
 
-    mono_descriptor->PortRangeHints	= (const LADSPA_PortRangeHint *)port_range_hints;
+    stereo_descriptor->PortRangeHints	= (const LADSPA_PortRangeHint *)port_range_hints;
     port_range_hints[GAIN].HintDescriptor =
     (LADSPA_HINT_BOUNDED_BELOW |
     LADSPA_HINT_BOUNDED_ABOVE |
-    LADSPA_HINT_DEFAULT_0);
+    LADSPA_HINT_DEFAULT_LOW);
     port_range_hints[FREQ].HintDescriptor =
     (LADSPA_HINT_BOUNDED_BELOW |
     LADSPA_HINT_BOUNDED_ABOVE |
     LADSPA_HINT_DEFAULT_MIDDLE |
     LADSPA_HINT_LOGARITHMIC); // suwak będzie działał znacznie płynniej dla ucha);
-    port_range_hints[GAIN].LowerBound = -24;
-    port_range_hints[GAIN].UpperBound = 24;
+    port_range_hints[GAIN].LowerBound = 0;
+    port_range_hints[GAIN].UpperBound = 48;
     port_range_hints[FREQ].LowerBound = 20;
     port_range_hints[FREQ].UpperBound = 600;
     port_range_hints[INPUTL].HintDescriptor = 0;
     port_range_hints[INPUTR].HintDescriptor = 0;
     port_range_hints[OUTPUTL].HintDescriptor = 0;
     port_range_hints[OUTPUTR].HintDescriptor = 0;
-    mono_descriptor->instantiate = instantiate;
-    mono_descriptor->connect_port = connect_port;
-    mono_descriptor->activate = (void *) activate;
-    mono_descriptor->run = run;
-    mono_descriptor->deactivate = NULL;
-    mono_descriptor->cleanup = cleanup;
+    stereo_descriptor->instantiate = instantiate;
+    stereo_descriptor->connect_port = connect_port;
+    stereo_descriptor->activate = (void *) activate;
+    stereo_descriptor->run = run;
+    stereo_descriptor->deactivate = NULL;
+    stereo_descriptor->cleanup = cleanup;
 };
 
 const LADSPA_Descriptor *ladspa_descriptor(unsigned long index)
 {
     switch (index) {
         case 0:
-            return mono_descriptor;
+            return stereo_descriptor;
         default:
             return NULL;
     }
