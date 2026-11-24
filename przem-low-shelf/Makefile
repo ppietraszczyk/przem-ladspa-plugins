@@ -1,5 +1,5 @@
 
-INSTALL_PLUGINS_DIR	=	/usr/local/lib/ladspa/
+INSTALL_PLUGINS_DIR	=	/usr/lib64/ladspa/
 
 CC	= gcc
 CFLAGS	= -I. -O3 -Wall -fomit-frame-pointer -fstrength-reduce -funroll-loops -ffast-math -c -fPIC -DPIC
@@ -16,9 +16,9 @@ przem-low-shelf.o: przem-low-shelf.h
 %.so: %.o
 	$(CC) -o $@ $< $(LDFLAGS)
 
-install: all
-	-mkdir -p          $(INSTALL_PLUGINS_DIR)
-	cp *.so            $(INSTALL_PLUGINS_DIR)
+#install: all
+#	-mkdir -p          $(INSTALL_PLUGINS_DIR)
+#	cp *.so            $(INSTALL_PLUGINS_DIR)
 
 clean:
 	-rm -f *.so *.o *~

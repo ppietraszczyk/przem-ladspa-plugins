@@ -1,0 +1,23 @@
+# Maintainer: Przemyslaw R. Pietraszczyk <przem@prymula.ct8.pl>
+
+pkgname=przem-ladspa-plugins
+pkgver=0.261124
+pkgrel=0
+pkgdesc="Completely simple LADSPA filters"
+arch=('x86_64')
+url="prymula.ct8.pl"
+license=('MIT')
+provides=('rzem-ladspa-plugins')
+#depends=('')
+makedepends=('make' 'gcc' 'pkg-config')
+source=("${pkgname}-${pkgver}-${pkgrel}.tar.gz::file://${pkgname}-${pkgver}-${pkgrel}.tar.gz")
+sha256sums=('b81fdb9dd0da2940928520142076ff7c535182da461c94af9663a5b6fa3d66bf') #generate with 'makepkg -g' || sha256sum
+build() {
+	cd "$srcdir/${pkgname}-${pkgver}-${pkgrel}"
+	make
+}
+
+package() {
+	cd "$srcdir/${pkgname}-${pkgver}-${pkgrel}"
+	make DESTDIR="${pkgdir}" install
+}

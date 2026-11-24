@@ -1,0 +1,2 @@
+foramt zapisu nazwy pliku:
+	photocrop_0.221225-0~alpha.tar.gz

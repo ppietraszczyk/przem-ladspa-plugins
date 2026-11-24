@@ -1,0 +1,14 @@
+Source: przem-ladspa-plugins
+Section: sound
+Priority: extra
+Maintainer: Przemysław Pietraszczyk <przem@prymula.ct8.pl>
+Build-Depends: debhelper-compat (= 12), fakeroot, g++, make
+Standards-Version: 0
+Homepage: https://prymula.ct8.pl
+
+Package: przem-ladspa-plugins
+Architecture: amd64
+Depends: ${misc:Depends}
+Description: Completely simple LADSPA filters
+ * The first plugin is a filter that implements the Low-Shelf (Biquad) filter.
+
