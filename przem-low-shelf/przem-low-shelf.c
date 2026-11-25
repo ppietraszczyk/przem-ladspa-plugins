@@ -195,7 +195,7 @@ __attribute__((constructor)) sin_init() {
     stereo_descriptor->Label = strdup("Przem Low Shelf");
     stereo_descriptor->Properties = LADSPA_PROPERTY_HARD_RT_CAPABLE; //0;
     stereo_descriptor->Name = strdup("Przem Low Shelf");
-    stereo_descriptor->Maker = strdup("Przemysław R. Pietraszczyk");
+    stereo_descriptor->Maker = strdup("Przemek R. Pietraszczyk");
     stereo_descriptor->Copyright = strdup("MIT");
     stereo_descriptor->PortCount = PORTCOUNT;
 
