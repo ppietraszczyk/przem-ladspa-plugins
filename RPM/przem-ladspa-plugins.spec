@@ -15,9 +15,9 @@
 # Please submit bugfixes or comments via https://bugs.opensuse.org/
 #
 
-%define unmangled_version 0.261124-0
+%define unmangled_version 0.261126-0
 Name:           przem-ladspa-plugins
-Version:	    0.261124
+Version:	    0.261126
 Release:        0
 Summary:    	Completely simple LADSPA filters
 License:        GPL3

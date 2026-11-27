@@ -5,18 +5,18 @@ Format: 1.0
 Source: przem-ladspa-plugins
 Binary: przem-ladspa-plugins
 Architecture: amd64
-Version: 0.261124-0
+Version: 0.261126-0
 Maintainer: Przemysław Pietraszczyk <przem@prymula.ct8.pl>
 Homepage: http://prymula.ct8.pl
-DEBTRANSFORM-TAR: przem-ladspa-plugins-0.261124-0.tar.gz
+DEBTRANSFORM-TAR: przem-ladspa-plugins-0.261126-0.tar.gz
  
 Standards-Version: 0
 Build-Depends: debhelper-compat (= 12), fakeroot, g++
 Package-List:
  przem-ladspa-plugins deb x11 optional arch=amd64
 Files:
- b31649bc23b2b7bca9ab70ea3410711a 128820 przem-ladspa-plugins-0.261124-0.tar.gz
- 29e7e7e60bc81891e3da3871b9eeb549 764 przem-ladspa-plugins-0.261124-0.debian.tar.xz
+ b31649bc23b2b7bca9ab70ea3410711a 128820 przem-ladspa-plugins-0.261126-0.tar.gz
+ 29e7e7e60bc81891e3da3871b9eeb549 764 przem-ladspa-plugins-0.261126-0.debian.tar.xz
 
 -----BEGIN PGP SIGNATURE-----
 
